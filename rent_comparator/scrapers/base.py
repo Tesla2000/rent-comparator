@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from typing import ClassVar
+from typing import NamedTuple
 
 import httpx
 from bs4 import BeautifulSoup
@@ -11,6 +12,13 @@ from pydantic import HttpUrl
 from .sort_params import SortDirection
 from .sort_params import SortField
 from .website_type import WebsiteType
+
+
+class OfferData(NamedTuple):
+    """Data scraped from a rental offer."""
+
+    url: str
+    text: str
 
 
 class Website(BaseModel):
@@ -58,8 +66,12 @@ class Website(BaseModel):
             )
         return query_params
 
-    def _fetch_offer_page(self, client: httpx.Client, href: str) -> str | None:
-        """Fetch and parse individual offer page content."""
+    def _fetch_offer_page(self, client: httpx.Client, href: str) -> OfferData:
+        """Fetch and parse individual offer page content.
+
+        Returns:
+            OfferData with url and text, or None if error
+        """
         if href.startswith("http"):
             offer_url = href
         else:
@@ -84,7 +96,7 @@ class Website(BaseModel):
         )
         text = "\n".join(chunk for chunk in chunks if chunk)
 
-        return text
+        return OfferData(url=offer_url, text=text)
 
     def scrape(
         self,
@@ -92,7 +104,7 @@ class Website(BaseModel):
         max_pages: int = 10,
         sort_field: SortField | None = None,
         sort_direction: SortDirection | None = None,
-    ) -> Iterator[str]:
+    ) -> Iterator[OfferData]:
         """Generator that yields full text content for each offer."""
         client = httpx.Client(
             headers={
@@ -131,9 +143,9 @@ class Website(BaseModel):
                     if not href:
                         continue
 
-                    offer_text = self._fetch_offer_page(client, href)
-                    if offer_text:
-                        yield offer_text
+                    offer_data = self._fetch_offer_page(client, href)
+                    if offer_data:
+                        yield offer_data
 
         finally:
             client.close()

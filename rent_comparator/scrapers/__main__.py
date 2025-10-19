@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from pydantic import Field
@@ -8,15 +9,16 @@ from pydantic_settings import BaseSettings
 from pydantic_settings import CliApp
 from rent_comparator.scrapers import AVAILABLE_WEBSITES
 from rent_comparator.scrapers import WebsiteType
-from rent_comparator.scrapers.sort_params import SortDirection
-from rent_comparator.scrapers.sort_params import SortField
+
+from .sort_params import SortDirection
+from .sort_params import SortField
 
 
 class ScraperSettings(BaseSettings):
     """CLI settings for rental scraper."""
 
     output_folder: Path = Field(
-        default=Path("data/rent_prices"),
+        default=Path("rent_comparator/data/rent_prices"),
         description="Folder to save scraped data",
     )
     city: str = Field(default="wroclaw", description="City to search in")
@@ -52,7 +54,7 @@ class ScraperSettings(BaseSettings):
 
             print(f"\n=== Scraping {website.name} ===")
 
-            for index, offer_text in enumerate(
+            for index, offer_data in enumerate(
                 website.scrape(
                     city=self.city,
                     max_pages=self.max_pages,
@@ -61,9 +63,13 @@ class ScraperSettings(BaseSettings):
                 ),
                 start=1,
             ):
-                # Save each offer to a separate file
-                offer_file = source_folder / f"{self.city}_offer_{index}.txt"
-                offer_file.write_text(offer_text, encoding="utf-8")
+                # Save each offer to a separate JSON file with URL and text
+                offer_file = source_folder / f"{self.city}_offer_{index}.json"
+                offer_json = {"url": offer_data.url, "text": offer_data.text}
+                offer_file.write_text(
+                    json.dumps(offer_json, indent=2, ensure_ascii=False),
+                    encoding="utf-8",
+                )
 
                 total_offers += 1
                 print(f"  Scraped offer {index} -> {offer_file}")

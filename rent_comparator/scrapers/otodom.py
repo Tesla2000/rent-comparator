@@ -39,4 +39,4 @@ class OtodomWebsite(Website):
 
 
 class _CityToVoivodeship(BaseSettings):
-    city_to_voivodeship: dict[str, str] = {"wrocław": "dolnośląskie"}
+    city_to_voivodeship: dict[str, str] = {"wroclaw": "dolnośląskie"}

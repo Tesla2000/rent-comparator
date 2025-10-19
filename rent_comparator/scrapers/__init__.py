@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from .base import OfferData
 from .base import Website
 from .gratka import GratkaWebsite
 from .olx import OLXWebsite
@@ -15,6 +16,7 @@ AVAILABLE_WEBSITES: dict[WebsiteType, type[Website]] = {
 }
 
 __all__ = [
+    "OfferData",
     "Website",
     "WebsiteType",
     "OtodomWebsite",
