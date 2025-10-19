@@ -8,6 +8,7 @@ import httpx
 from bs4 import BeautifulSoup
 from pydantic import BaseModel
 from pydantic import HttpUrl
+from pydantic import NonNegativeInt
 
 from .sort_params import SortDirection
 from .sort_params import SortField
@@ -31,6 +32,7 @@ class Website(BaseModel):
     offer_selector: ClassVar[str]
     sort_field_param: ClassVar[str] = "by"
     sort_direction_param: ClassVar[str] = "direction"
+    n_promoted_messages: NonNegativeInt = 0
 
     def get_search_url(
         self,
@@ -89,12 +91,7 @@ class Website(BaseModel):
             script.decompose()
 
         # Get text and clean it
-        text = offer_soup.get_text()
-        lines = (line.strip() for line in text.splitlines())
-        chunks = (
-            phrase.strip() for line in lines for phrase in line.split("  ")
-        )
-        text = "\n".join(chunk for chunk in chunks if chunk)
+        text = offer_soup.get_text(separator="\n")
 
         return OfferData(url=offer_url, text=text)
 
@@ -138,7 +135,7 @@ class Website(BaseModel):
                     break
 
                 # Fetch and yield each offer's full page content
-                for offer_link in offer_links:
+                for offer_link in offer_links[self.n_promoted_messages :]:
                     href = offer_link.get("href")
                     if not href:
                         continue

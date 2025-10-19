@@ -32,7 +32,7 @@ class ExtractionSettings(BaseSettings):
     openai_api_key: SecretStr
     temperature: float = Field(default=0.0, description="LLM temperature")
     max_workers: PositiveInt = Field(
-        default=5, description="Number of parallel extraction workers"
+        default=10, description="Number of parallel extraction workers"
     )
     model_config = SettingsConfigDict(
         cli_parse_args=True,

@@ -37,6 +37,7 @@ class OfferParameters(BaseModel):
     minimal_rent_duration_months: NonNegativeInt = Field(
         0, description="Minimal duration of rent"
     )
+    media_included: bool | None = None
 
     @property
     def total_price(self) -> float:

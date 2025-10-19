@@ -14,7 +14,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/rent_comparator/experiments/__main__.py" />
-    <option name="PARAMETERS" value="--filters &quot;[exclude_only_students, exclude_only_women]&quot; --exclude-locations &quot;[Psie, Ikara]&quot;" />
+    <option name="PARAMETERS" value="--filters &quot;[exclude_only_students, exclude_only_women]&quot; --exclude-locations &quot;[Psie, Ikara, Poznań, Warszawa, Rzeszów]&quot;" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
