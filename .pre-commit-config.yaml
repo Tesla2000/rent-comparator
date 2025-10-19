@@ -36,10 +36,6 @@ repos:
     hooks:
      - id: static_marker
        stages: [pre-commit]
-  - repo: https://github.com/Tesla2000/import-rules-enforcer
-    rev: 'v0.0.14'
-    hooks:
-      - id: import_rules_enforcer
   - repo: https://github.com/pycqa/flake8
     rev: '7.3.0'
     hooks:

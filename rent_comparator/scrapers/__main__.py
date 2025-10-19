@@ -8,10 +8,9 @@ from pydantic import PositiveInt
 from pydantic_settings import BaseSettings
 from pydantic_settings import CliApp
 from rent_comparator.scrapers import AVAILABLE_WEBSITES
+from rent_comparator.scrapers import SortDirection
+from rent_comparator.scrapers import SortField
 from rent_comparator.scrapers import WebsiteType
-
-from .sort_params import SortDirection
-from .sort_params import SortField
 
 
 class ScraperSettings(BaseSettings):

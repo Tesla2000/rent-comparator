@@ -11,9 +11,8 @@ from pydantic import SecretStr
 from pydantic_settings import BaseSettings
 from pydantic_settings import CliApp
 from pydantic_settings import SettingsConfigDict
+from rent_comparator.extraction import OfferExtractor
 from tqdm import tqdm
-
-from .extractor import OfferExtractor
 
 
 class ExtractionSettings(BaseSettings):

@@ -9,11 +9,10 @@ from pydantic import PositiveInt
 from pydantic_settings import BaseSettings
 from pydantic_settings import CliApp
 from pydantic_settings import SettingsConfigDict
-
-from .criteria import FilterParams
-from .criteria import FilterType
-from .criteria import SearchCriteria
-from .finder import BestOfferFinder
+from rent_comparator.experiments import BestOfferFinder
+from rent_comparator.experiments import SearchCriteria
+from rent_comparator.experiments.criteria import FilterParams
+from rent_comparator.experiments.criteria import FilterType
 
 
 class ExperimentSettings(BaseSettings):
