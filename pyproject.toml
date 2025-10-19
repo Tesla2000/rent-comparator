@@ -1,0 +1,12 @@
+[project]
+name = "rent_comparator"
+version = "0.1.0"
+description = "Compares rent prices of appartament by aggregating information form different sources"
+authors = [{name = "Tesla2000", email = "fratajczak124@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
